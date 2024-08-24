@@ -17,7 +17,7 @@ func Sleep(ctx context.Context, duration time.Duration) error {
 	}
 }
 
-func Timeout[T any](ctx context.Context, timeout time.Duration, fn func(ctx context.Context) (T, error)) (T, error) {
+func Timeout[T any](ctx context.Context, timeout time.Duration, fn func(timeoutCtx context.Context) (T, error)) (T, error) {
 	timeoutCtx, cancelTimeout := context.WithTimeout(ctx, timeout)
 	defer cancelTimeout()
 	return fn(timeoutCtx)
