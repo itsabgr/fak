@@ -1,3 +1,5 @@
+package fak
+
 func SignalContext(ctx context.Context, signals ...os.Signal) context.Context {
 	if len(signals) <= 0 {
 		panic(errors.New("empty signals"))
