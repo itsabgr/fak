@@ -10,3 +10,11 @@ func Flush[T any](c <-chan T) (i int) {
 		}
 	}
 }
+
+func Chan[R any](fn func() R) <-chan R {
+	c := make(chan R, 1)
+	go func() {
+		c <- fn()
+	}()
+	return c
+}
