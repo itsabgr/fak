@@ -1,6 +1,9 @@
 package fak
 
-import "context"
+import (
+	"context"
+	"runtime"
+)
 
 func LockContext(ctx context.Context, lock interface{ TryLock() bool }) error {
 	for lock.TryLock() == false {
