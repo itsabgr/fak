@@ -15,17 +15,16 @@ func LockContext(ctx context.Context, lock interface{ TryLock() bool }) error {
 	return nil
 }
 
-func Async[R any](ctx context.Context, fn func() (R, error)) (r R, err error) {
-	done := make(chan struct{}, 1)
+func Async[R any](ctx context.Context, fn func() R) (R, error) {
+	done := make(chan R, 1)
 	go func() {
-		r, err = fn()
-		done <- struct{}{}
+		done <- fn()
 	}()
 	select {
 	case <-ctx.Done():
-		var zero R
-		return zero, ctx.Err()
-	case <-done:
-		return r, err
+		var z R
+		return z, ctx.Err()
+	case r := <-done:
+		return r, nil
 	}
 }
