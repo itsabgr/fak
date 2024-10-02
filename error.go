@@ -77,5 +77,8 @@ func (w wError) Unwrap() error {
 }
 
 func Wrap(wrapper, original error) error {
+	if original == nil {
+		return nil
+	}
 	return wError{wrapper, original}
 }
